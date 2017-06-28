@@ -5,7 +5,11 @@ import LoadingComponent from '../component/LoadingComponent';
 
 //TODO create apollo client with this uri:
 //'https://api.graph.cool/simple/v1/cj1ufizxi5lgy0109064uyi7i'
-export const apolloClient = new ApolloClient();
+export const apolloClient = new ApolloClient({
+        networkInterface: createNetworkInterface({
+            uri: 'https://api.graph.cool/simple/v1/cj1ufizxi5lgy0109064uyi7i',
+        })
+    });
 
 
 export const waitForGraphql = (query, config) => (WrappedComponent) => {

@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import {isValidForm, validateInput} from '../../utils/index';
-import {gql} from 'react-apollo'; import graphql from 'react-apollo/lib/graphql'; import {SuccessModal} from '../modal/index';
+import {gql} from 'react-apollo';
+import graphql from 'react-apollo/lib/graphql';
+import {SuccessModal} from '../modal/index';
 
 class Login extends Component {
   constructor(props) {

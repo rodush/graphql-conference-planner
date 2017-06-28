@@ -1,6 +1,9 @@
 import React from 'react';
 import {waitForGraphql} from '../../apollo/index';
-import {gql} from 'react-apollo'; import SpeakerOverview from './SpeakerOverview'; import TalkOverview from '../talk/TalkOverview'; import {divideInRows} from '../../utils/index';
+import {gql} from 'react-apollo';
+import SpeakerOverview from './SpeakerOverview';
+import TalkOverview from '../talk/TalkOverview';
+import {divideInRows} from '../../utils/index';
 
 const SpeakerDetails = ({data: {
   speaker: {
@@ -51,8 +54,7 @@ const SpeakerDetails = ({data: {
   </div>
 </div>;
 
-
-const query = undefined; /*gql`
+const query = gql`
   query getSpeakerById($id: ID!) {
       speaker: User(id: $id) {
           ...Speaker
@@ -61,10 +63,9 @@ const query = undefined; /*gql`
           }
       }
   }
-  
   ${SpeakerOverview.fragments.speaker}
   ${TalkOverview.fragments.talk}
-`;*/
+`;
 
 const config = {
   options: ({match: {params: {id}}}) => ({
@@ -74,6 +75,6 @@ const config = {
   })
 };
 
-//const SpeakerDetailsData = waitForGraphql(query, config)(SpeakerDetails);
+const SpeakerDetailsData = waitForGraphql(query, config)(SpeakerDetails);
 
-export default SpeakerDetails;
+export default SpeakerDetailsData;

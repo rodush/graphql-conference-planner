@@ -32,7 +32,7 @@ const ConferenceOverview = (
       </span>
        <span className="comments">
           <span className="icon">
-            <i className="fa  fa-users" />
+            <i className="fa fa-users" />
           </span>
           {count} attendees
         </span>
@@ -46,14 +46,26 @@ const ConferenceOverview = (
 //Nothing more
 //Hint: fragment ConferenceOverview on Conference
 ConferenceOverview.fragments = {
-  conference: undefined
+  conference: gql`
+      fragment ConferenceOverview on Conference {
+          id
+          name
+          startDate
+          logo
+          _attendeesMeta {
+            count
+          }
+          city
+          country
+      }
+  `
 };
 
 //This fragment definition can now be used to tell React
 //What mandatory props he should have
 //Hint: use the propType util from graphql-anywhere
 ConferenceOverview.propTypes = {
-  conference: {}
+  conference: propType(ConferenceOverview).isRequired
 };
 
 export default ConferenceOverview;

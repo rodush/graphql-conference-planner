@@ -17,8 +17,15 @@ return <div>
 </div>
 };
 
-Sponsors.fragments = {
-  sponsor: undefined /*Use propType util to tell what fragment is required */
-};
+// Sponsors.fragments = {
+//   sponsor: gql`
+//       query Sponsors($type: SponsorType!) {
+//           sponsors: Sponsors(type: $type) {
+//               id
+//               name
+//           }
+//       }
+//   `
+// };
 
 export default Sponsors;

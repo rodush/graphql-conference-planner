@@ -43,11 +43,20 @@ const TalkOverview = ({
 
 //TODO define talk overview fragment
 TalkOverview.fragments = {
-  talk: undefined
+  talk: gql`
+      fragment TalkOverview on Talk {
+          id
+          title
+          room
+          startsAt
+          description
+      }
+  `
 };
 
+/*Use the propType util to defined what fragment should be required here */
 TalkOverview.propTypes = {
-  talk: undefined /*Use the propType util to defined what fragment should be required here */
+  talk: propType(TalkOverview.fragments.talk).required
 };
 
 export default TalkOverview;

@@ -5,7 +5,8 @@ import SpeakerOverview from '../speaker/SpeakerOverview';
 import Company from '../Company';
 import Sponsors from '../Sponsors';
 import TalkOverview from '../talk/TalkOverview';
-import ConferenceOverview from './ConferenceOverview'; import {divideInRows} from '../../utils/index';
+import ConferenceOverview from './ConferenceOverview';
+import {divideInRows} from '../../utils/index';
 
 class ConferenceDetails extends Component {
   render() {
@@ -21,7 +22,7 @@ class ConferenceDetails extends Component {
           sponsors
         }
       }
-    } =  this.props;
+    } = this.props;
     return <div>
       <div className="section product-header">
         <div className="container">
@@ -125,33 +126,65 @@ class ConferenceDetails extends Component {
 // Use the conference overview fragment in the ConferenceDetails fragment
 // And add the properties the details needs
 ConferenceDetails.fragments = {
-  conferenceDetails: undefined
+  conferenceDetails: gql`
+      fragment ConferenceDetails on Conference {
+        ...ConferenceOverview
+          description
+          _sponsorsMeta {
+              count
+          }
+          sponsors {
+              company
+          }
+          talks
+      }
+      ${ConferenceOverview.fragments.conference}
+  `
 };
 
 
 //TODO get conference detail based on path param
 // Use fragments when possible
-const query = undefined;
+const query = gql`
+    query Conference($id: ID!) {
+        conference: Conference(id: $id) {
+            ...ConferenceOverview
+            _sponsorsMeta {
+                count
+            }
+            sponsors {
+                id
+                type
+            }
+            description
+            talks {
+                title
+                id
+                description
+                speaker {
+                    id
+                    email
+                    bio
+                    createdAt
+                }
+            }
+        }
+    }
+    ${ConferenceOverview.fragments.conference}
+`
+;
 
 //TODO to get the variable in your query use the config.options object
 // It lets you inject static (object) or dynamic (function) variables from the props in your query
 // match.params.id is where your id path param lives
 const config = {
-  options: {}
+  options: (props) => {
+      return {
+          variables: {id: props.match.params.id}
+      }
+  }
 };
 
 //TODO use waitForGraphql HOC
-const ConferenceDetailsData = () => ConferenceDetails({
-  data: {
-    conference: {
-      name: '',
-      city: '',
-      description: '',
-      _attendeesMeta: {count: 1},
-      _sponsorsMeta: {count: 1},
-      talks : [],
-      sponsors: []
-    }
-  }
-});
+const ConferenceDetailsData = waitForGraphql(query, config)(ConferenceDetails);
 export default ConferenceDetailsData;
